@@ -1,0 +1,10 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Shoppy API",
+      "version": "1.0.0",
+      "description": "API documentation for Shoppy e-commerce platform"
+    },
+    "paths": {},
+    "components": {}
+  }

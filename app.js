@@ -2,9 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger.json');
-const { sequelize } = require('./config/db');
+// const swaggerUi = require('swagger-ui-express');
+// const swaggerDocument = require('./swagger.json');
 const routes = require('./routes');
 const errorHandler = require('./middleware/errorHandler');
 const logger = require('./utils/logger');
@@ -26,7 +25,7 @@ app.use(express.json());
 app.use(logger.requestLogger);
 
 // API documentation
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Routes
 app.use('/api/auth', routes.authRoutes);
@@ -42,11 +41,4 @@ app.use('/api/search', routes.searchRoutes);
 // Error handling middleware
 app.use(errorHandler);
 
-// Sync database and start server
-sequelize.sync().then(() => {
-  const port = process.env.PORT || 3000;
-  app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
-    console.log(`API documentation available at http://localhost:${port}/api-docs`);
-  });
-});
+module.exports = app;

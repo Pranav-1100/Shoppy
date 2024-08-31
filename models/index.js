@@ -7,6 +7,7 @@ const OrderItemModel = require('./OrderItem');
 const ReviewModel = require('./Review');
 const CartModel = require('./Cart');
 const CartItemModel = require('./CartItem');
+const WishlistModel = require('./Wishlist');
 
 const User = UserModel(sequelize);
 const Product = ProductModel(sequelize);
@@ -16,6 +17,7 @@ const OrderItem = OrderItemModel(sequelize);
 const Review = ReviewModel(sequelize);
 const Cart = CartModel(sequelize);
 const CartItem = CartItemModel(sequelize);
+const Wishlist = WishlistModel(sequelize);
 
 // Define associations
 User.hasMany(Order);
@@ -37,6 +39,11 @@ Review.belongsTo(Product);
 
 Cart.belongsTo(User);
 Cart.belongsToMany(Product, { through: CartItem });
+
+User.hasOne(Wishlist);
+Wishlist.belongsTo(User);
+Wishlist.belongsToMany(Product, { through: 'WishlistItem' });
+Product.belongsToMany(Wishlist, { through: 'WishlistItem' });
 
 module.exports = {
   User,

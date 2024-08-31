@@ -1,25 +1,32 @@
-require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const { initDatabase } = require('./config/db');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+const { sequelize } = require('./config/db');
 const routes = require('./routes');
 const errorHandler = require('./middleware/errorHandler');
 const logger = require('./utils/logger');
 
 const app = express();
-const port = process.env.PORT || 3000;
 
+// Security middlewares
+app.use(helmet());
 app.use(cors());
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100 // limit each IP to 100 requests per windowMs
+});
+app.use(limiter);
+
 app.use(express.json());
 app.use(logger.requestLogger);
 
-// Initialize database
-initDatabase()
-  .then(() => console.log('Database initialized successfully'))
-  .catch((error) => {
-    console.error('Failed to initialize database:', error);
-    process.exit(1);
-  });
+// API documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Routes
 app.use('/api/auth', routes.authRoutes);
@@ -29,10 +36,17 @@ app.use('/api/categories', routes.categoryRoutes);
 app.use('/api/orders', routes.orderRoutes);
 app.use('/api/reviews', routes.reviewRoutes);
 app.use('/api/cart', routes.cartRoutes);
+app.use('/api/wishlist', routes.wishlistRoutes);
+app.use('/api/search', routes.searchRoutes);
 
 // Error handling middleware
 app.use(errorHandler);
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+// Sync database and start server
+sequelize.sync().then(() => {
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
+    console.log(`API documentation available at http://localhost:${port}/api-docs`);
+  });
 });

@@ -9,6 +9,10 @@ module.exports = {
     USER_ROLES: {
       ADMIN: 'admin',
       CUSTOMER: 'customer'
+    },
+    PAGINATION: {
+      DEFAULT_PAGE: 1,
+      DEFAULT_LIMIT: 10
     }
   };
   

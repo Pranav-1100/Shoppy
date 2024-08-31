@@ -2,8 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { initDatabase } = require('./config/db');
-const authMiddleware = require('./middleware/auth');
 const routes = require('./routes');
+const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -19,8 +19,8 @@ initDatabase()
     process.exit(1);
   });
 
-// Public routes
-app.use('/api/auth', routes.authRoutes);
+// Error handling middleware
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);

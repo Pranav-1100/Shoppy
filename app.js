@@ -2,9 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-// const swaggerUi = require('swagger-ui-express');
-// const swaggerDocument = require('./swagger.json');
-const routes = require('./routes');
+const router = require('./routes');
 const errorHandler = require('./middleware/errorHandler');
 const logger = require('./utils/logger');
 
@@ -24,19 +22,8 @@ app.use(limiter);
 app.use(express.json());
 app.use(logger.requestLogger);
 
-// API documentation
-// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
 // Routes
-app.use('/api/auth', routes.authRoutes);
-app.use('/api/users', routes.userRoutes);
-app.use('/api/products', routes.productRoutes);
-app.use('/api/categories', routes.categoryRoutes);
-app.use('/api/orders', routes.orderRoutes);
-app.use('/api/reviews', routes.reviewRoutes);
-app.use('/api/cart', routes.cartRoutes);
-app.use('/api/wishlist', routes.wishlistRoutes);
-app.use('/api/search', routes.searchRoutes);
+app.use('/api', router);
 
 // Error handling middleware
 app.use(errorHandler);

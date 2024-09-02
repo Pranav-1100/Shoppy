@@ -912,7 +912,56 @@
 					"response": []
 				}
 			]
-		}
+		},
+		{
+			"name": "Get Personalized Recommendations",
+			"request": {
+			  "method": "GET",
+			  "header": [
+				{
+				  "key": "Authorization",
+				  "value": "Bearer {{token}}",
+				  "type": "text"
+				}
+			  ],
+			  "url": {
+				"raw": "{{base_url}}/api/recommendations?limit=10",
+				"host": [
+				  "{{base_url}}"
+				],
+				"path": [
+				  "api",
+				  "recommendations"
+				],
+				"query": [
+				  {
+					"key": "limit",
+					"value": "10",
+					"description": "Number of recommendations to return (optional)"
+				  }
+				]
+			  },
+			  "description": "Retrieve personalized product recommendations for the authenticated user."
+			},
+			"response": [
+			  {
+				"name": "Successful Response",
+				"status": "OK",
+				"code": 200,
+				"_postman_previewlanguage": "json",
+				"header": [
+				  {
+					"key": "Content-Type",
+					"value": "application/json"
+				  }
+				],
+				"body": {
+				  "mode": "raw",
+				  "raw": "{\n    \"recommendations\": [\n        {\n            \"id\": \"123e4567-e89b-12d3-a456-426614174000\",\n            \"name\": \"Recommended Product 1\",\n            \"description\": \"This is a great product based on your history\",\n            \"price\": 59.99,\n            \"image\": \"http://example.com/image1.jpg\",\n            \"category\": \"Electronics\",\n            \"rating\": 4.5\n        },\n        {\n            \"id\": \"223e4567-e89b-12d3-a456-426614174001\",\n            \"name\": \"Recommended Product 2\",\n            \"description\": \"Another product you might like\",\n            \"price\": 29.99,\n            \"image\": \"http://example.com/image2.jpg\",\n            \"category\": \"Books\",\n            \"rating\": 4.2\n        }\n    ]\n}"
+				}
+			  }
+			]
+		  }
 	],
 	"event": [
 		{

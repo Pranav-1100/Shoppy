@@ -8,6 +8,7 @@ const reviewRoutes = require('./review');
 const cartRoutes = require('./cart');
 const wishlistRoutes = require('./wishlist');
 const searchRoutes = require('./search');
+const recommendationRoutes = require('./recommendation');
 
 const router = express.Router();
 
@@ -20,5 +21,6 @@ router.use('/reviews', reviewRoutes);
 router.use('/cart', cartRoutes);
 router.use('/wishlist', wishlistRoutes);
 router.use('/search', searchRoutes);
+router.use('/recommendations', recommendationRoutes);
 
 module.exports = router;
